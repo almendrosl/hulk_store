@@ -3,10 +3,9 @@ package com.todo1.hulk_store.controller;
 import com.todo1.hulk_store.model.Product;
 import com.todo1.hulk_store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("api/v1/product")
 @RestController
@@ -19,20 +18,30 @@ public class ProductController {
         this.productService = productService;
     }
 
-//    @PostMapping
-//    public void addProduct(@RequestBody Product product) {
-//        productService.addProduct(product);
-//    }
+    @PostMapping
+    public Product addProduct(@RequestBody Product product) {
+        return productService.addProduct(product);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Product getProduct(@PathVariable Integer id) throws Exception {
+        return productService.getProduct(id);
+    }
 
     @GetMapping
     @ResponseBody
-    public String products() {
-        Iterable<Product> all = productService.getProducts();
+    public List<Product> products() {
+        return (List<Product>) productService.getProducts();
+    }
 
-        StringBuilder sb = new StringBuilder();
+    @DeleteMapping(value = "/{id}")
+    public void deleteProduct(@PathVariable Integer id) throws Exception {
+        productService.deleteProduct(id);
+    }
 
-        all.forEach(p -> sb.append(p.getName() + "<br>"));
-
-        return sb.toString();
+    @PutMapping
+    @ResponseBody
+    public Product updateProduct(@RequestBody Product product) throws Exception {
+        return productService.updateProduct(product);
     }
 }
