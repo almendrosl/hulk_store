@@ -1,7 +1,9 @@
 package com.todo1.hulk_store.model;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
@@ -11,17 +13,6 @@ public class Product {
     private Integer id;
 
     private String name;
-
-    @OneToMany(mappedBy = "product")
-    private List<Kardex> kardex;
-
-    public List<Kardex> getKardex() {
-        return kardex;
-    }
-
-    public void setKardex(List<Kardex> kardex) {
-        this.kardex = kardex;
-    }
 
     public Integer getId() {
         return id;
