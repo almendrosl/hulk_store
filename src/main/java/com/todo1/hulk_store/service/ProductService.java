@@ -3,7 +3,6 @@ package com.todo1.hulk_store.service;
 import com.todo1.hulk_store.exeptions.RecordNotFoundException;
 import com.todo1.hulk_store.model.Product;
 import com.todo1.hulk_store.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,8 +10,11 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public Product addProduct(Product product) {
         return productRepository.save(product);

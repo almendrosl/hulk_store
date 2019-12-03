@@ -7,7 +7,6 @@ import com.todo1.hulk_store.model.Transaction;
 import com.todo1.hulk_store.model.TransactionType;
 import com.todo1.hulk_store.repository.KardexRepository;
 import com.todo1.hulk_store.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +15,13 @@ import java.util.List;
 public class KardexService {
 
     final private static int MINIMUM_STOCK = 0;
-    @Autowired
-    private KardexRepository kardexRepository;
-    @Autowired
-    private ProductRepository productRepository;
+    private final KardexRepository kardexRepository;
+    private final ProductRepository productRepository;
+
+    public KardexService(KardexRepository kardexRepository, ProductRepository productRepository) {
+        this.kardexRepository = kardexRepository;
+        this.productRepository = productRepository;
+    }
 
     public Kardex makeTransaction(Transaction transaction) throws NotValidStockException, RecordNotFoundException {
         if (!productRepository.findById(transaction.getProductID()).isPresent()) {
