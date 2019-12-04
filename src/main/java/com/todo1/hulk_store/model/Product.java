@@ -6,6 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
+/**
+ * Represent a product to be measured
+ */
 @Entity
 public class Product {
     @Id

@@ -2,6 +2,10 @@ package com.todo1.hulk_store.model;
 
 import java.util.Date;
 
+/**
+ * Represent a transaction to be made, can be Input or Output, this object is used only internal
+ * it isn't saved, its data its saved into a kardex row
+ */
 public class Transaction {
 
     private TransactionType type;

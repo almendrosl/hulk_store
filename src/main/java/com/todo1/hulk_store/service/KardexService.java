@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * KardexService have all logic from the card calculating using the weighted average path
+ */
 @Service
 public class KardexService {
 
@@ -23,6 +26,14 @@ public class KardexService {
         this.productRepository = productRepository;
     }
 
+    /**
+     * Calculate a new kardex row, can be an Input or Output
+     *
+     * @param transaction new transaction to evaluate
+     * @return the new kardex row generated
+     * @throws NotValidStockException  the result stock is 0 or less
+     * @throws RecordNotFoundException the product id doesn't exist
+     */
     public Kardex makeTransaction(Transaction transaction) throws NotValidStockException, RecordNotFoundException {
         if (!productRepository.findById(transaction.getProductID()).isPresent()) {
             throw new RecordNotFoundException("No product record exist for given id");
@@ -37,6 +48,12 @@ public class KardexService {
         return null;
     }
 
+    /**
+     * Obtain all the kardex card
+     * @param productID Product id from the kardex
+     * @return List Kardex (Represent a kardex card)
+     * @throws RecordNotFoundException if the product id doesn't exist
+     */
     public List<Kardex> getKardex(Integer productID) throws RecordNotFoundException {
         if (!productRepository.findById(productID).isPresent()) {
             throw new RecordNotFoundException("No product record exist for given id");
@@ -45,6 +62,12 @@ public class KardexService {
         return kardexRepository.findByProduct_Id(productID);
     }
 
+    /**
+     * It make a new Otput row in the kardex card
+     * @param transaction new output transaction to be computed
+     * @return the new kardex row generated
+     * @throws NotValidStockException the result stock is 0 or less
+     */
     private Kardex makeTransactionOutput(Transaction transaction) throws NotValidStockException {
         List<Kardex> kardex = kardexRepository.findByProduct_Id(transaction.getProductID());
         if (kardex.isEmpty()) {
@@ -66,6 +89,11 @@ public class KardexService {
         return insertOutput(transaction, lastTransaction.getUnitValue(), outputValue, stockQuantity, stockValue);
     }
 
+    /**
+     * It make a new Input row in the kardex card
+     * @param transaction new input transaction to be computed
+     * @return the new kardex row generated
+     */
     private Kardex makeTransactionInput(Transaction transaction) {
         Double inputValue = transaction.getUnitPrice() * transaction.getQuantity();
 

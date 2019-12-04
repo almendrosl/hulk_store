@@ -3,6 +3,9 @@ package com.todo1.hulk_store.model;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Represent a row in a kardex card
+ */
 @Entity
 public class Kardex {
 

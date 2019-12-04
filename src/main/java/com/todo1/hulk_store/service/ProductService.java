@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Logic for the product resource
+ */
 @Service
 public class ProductService {
 
@@ -16,10 +19,23 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    /**
+     * Add a new product
+     *
+     * @param product product object to save
+     * @return the new Product saved
+     */
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
 
+    /**
+     * Obtain a specific product from its id
+     *
+     * @param productID the product id for the product required
+     * @return the product required
+     * @throws RecordNotFoundException if the product id doesn't exist
+     */
     public Product getProduct(Integer productID) throws RecordNotFoundException {
         Optional<Product> product = productRepository.findById(productID);
 
@@ -30,10 +46,21 @@ public class ProductService {
         }
     }
 
+    /**
+     * Call to all products
+     *
+     * @return All the products in the DB
+     */
     public Iterable<Product> getProducts() {
         return productRepository.findAll();
     }
 
+    /**
+     * delete a specific product
+     *
+     * @param productID the product id to delete
+     * @throws RecordNotFoundException if the product id doesn't exist
+     */
     public void deleteProduct(Integer productID) throws RecordNotFoundException {
         Optional<Product> product = productRepository.findById(productID);
 
@@ -44,6 +71,13 @@ public class ProductService {
         }
     }
 
+    /**
+     * Update the data form a product
+     *
+     * @param product new Product object to update (the id have to be the same form the product to update)
+     * @return the product updated
+     * @throws RecordNotFoundException if the product id doesn't exist
+     */
     public Product updateProduct(Product product) throws RecordNotFoundException {
         Optional<Product> productToUpdate = productRepository.findById(product.getId());
         if (productToUpdate.isPresent()) {
